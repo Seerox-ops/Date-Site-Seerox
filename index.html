@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffd9ea">
+<title>Unsere Date-Idee 💗</title>
+<style>
+:root{
+  --rose:#ff4f91;
+  --pink:#ff77ad;
+  --pink2:#ff9ac7;
+  --text:#5d2941;
+  --muted:#7b4a61;
+  --card:rgba(255,255,255,.91);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;min-height:100%}
+body{
+  min-height:100dvh;
+  overflow-x:hidden;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 18% 15%,#ffe0ee 0 14%,transparent 15%),
+    radial-gradient(circle at 82% 20%,#ffd4e8 0 13%,transparent 14%),
+    linear-gradient(135deg,#fff3f8,#ffd9ea,#fff1f7);
+  padding:18px;
+}
+.page{
+  min-height:calc(100dvh - 36px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.card{
+  width:min(94vw,560px);
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:30px;
+  padding:30px 22px 26px;
+  text-align:center;
+  box-shadow:0 22px 60px rgba(145,45,92,.18);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  position:relative;
+  z-index:5;
+}
+.hidden{display:none!important}
+.icon{font-size:52px}
+h1{font-size:clamp(29px,7vw,46px);line-height:1.08;margin:8px 0 12px}
+h2{font-size:clamp(25px,6vw,36px);margin:6px 0 10px}
+p{color:var(--muted);line-height:1.5}
+button{
+  border:0;border-radius:999px;padding:15px 24px;
+  min-height:54px;font-size:17px;font-weight:800;
+  user-select:none;-webkit-user-select:none;
+}
+.primary{
+  color:#fff;
+  background:linear-gradient(135deg,var(--rose),var(--pink2));
+  box-shadow:0 10px 28px rgba(255,79,145,.34);
+}
+.secondary{
+  color:#7a5365;background:#fff;border:1px solid #efbdd3;
+}
+#yesBtn{
+  transition:transform .2s ease,box-shadow .2s ease;
+  position:relative;z-index:20;
+}
+#yesBtn.glow{animation:glow .75s infinite alternate}
+@keyframes glow{
+  from{box-shadow:0 0 12px rgba(255,79,145,.55),0 0 20px rgba(255,154,199,.4)}
+  to{box-shadow:0 0 18px #fff,0 0 38px #ff4f91,0 0 60px rgba(255,154,199,.75)}
+}
+#noBtn{
+  position:fixed;z-index:100;
+  left:58vw;top:58vh;
+  transition:left .12s ease,top .12s ease;
+}
+#message{
+  min-height:48px;margin-top:14px;
+  color:#a23165;font-weight:700;line-height:1.45;
+}
+.step-actions{
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;
+}
+.field{
+  text-align:left;margin-top:20px;
+}
+label{
+  display:block;font-weight:800;margin-bottom:8px;
+}
+input,select{
+  width:100%;
+  min-height:54px;
+  border-radius:16px;
+  border:1px solid #efc1d5;
+  background:#fff;
+  padding:0 15px;
+  font-size:16px;
+  color:var(--text);
+  outline:none;
+}
+input:focus,select:focus{
+  border-color:#ff83b6;
+  box-shadow:0 0 0 4px rgba(255,131,182,.13);
+}
+.suggestions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+.suggestion{
+  border-radius:16px;
+  padding:13px 12px;
+  background:#fff;
+  border:1px solid #efc1d5;
+  color:#6c4054;
+  font-weight:700;
+  cursor:pointer;
+}
+.suggestion.selected{
+  background:#fff0f6;
+  border-color:#ff78ad;
+  box-shadow:0 0 0 3px rgba(255,120,173,.12);
+}
+.summary-card{
+  margin-top:18px;
+  padding:24px 18px;
+  border-radius:26px;
+  background:
+    radial-gradient(circle at 20% 18%,rgba(255,255,255,.95),transparent 30%),
+    linear-gradient(135deg,#fff7fb,#ffe2ef);
+  border:1px solid #f4c4d8;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.6);
+}
+.summary-title{
+  font-size:28px;font-weight:900;margin-bottom:16px;
+}
+.summary-row{
+  padding:14px;
+  border-radius:16px;
+  background:rgba(255,255,255,.85);
+  margin:10px 0;
+  text-align:left;
+}
+.summary-label{
+  display:block;font-size:13px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.08em;color:#a05b78;
+  margin-bottom:5px;
+}
+.summary-value{
+  font-size:20px;font-weight:800;color:#5d2941;
+}
+.screenshot-note{
+  margin-top:14px;font-size:14px;color:#8a5870;
+}
+.heart{
+  position:fixed;bottom:-50px;pointer-events:none;opacity:.5;
+  animation:floatUp linear infinite;z-index:1;
+}
+@keyframes floatUp{from{transform:translateY(0)}to{transform:translateY(-115vh)}}
+.sparkle{
+  position:fixed;z-index:200;pointer-events:none;font-size:24px;
+  animation:spark .8s ease-out forwards;
+}
+@keyframes spark{
+  from{transform:translate(-50%,-50%) scale(.2);opacity:1}
+  to{transform:translate(-50%,-90px) scale(1.5) rotate(180deg);opacity:0}
+}
+@media(max-width:520px){
+  .card{padding:26px 17px 22px;border-radius:26px}
+  .suggestions{grid-template-columns:1fr}
+  h1{font-size:32px}
+  button{font-size:16px;padding:14px 20px}
+}
+</style>
+</head>
+<body>
+
+<div id="askPage" class="page">
+  <div class="card">
+    <div class="icon">💌</div>
+    <h1>Willst du mit mir auf ein Date gehen? 💗</h1>
+    <p>Ich verspreche: Es wird süß, gemütlich und ganz bestimmt ein schöner Abend. ✨</p>
+    <div class="step-actions">
+      <button id="yesBtn" class="primary" onclick="sayYes()">Ja 💕</button>
+    </div>
+    <div id="message"></div>
+  </div>
+  <button id="noBtn" class="secondary" ontouchstart="return runAway(event)" onclick="return runAway(event)">Nein 🙈</button>
+</div>
+
+<div id="datePage" class="page hidden">
+  <div class="card">
+    <div class="icon">📅</div>
+    <h2>Wann soll unser Date sein? 💗</h2>
+    <p>Such dir einfach einen Tag aus, der sich gut anfühlt ✨</p>
+    <div class="field">
+      <label for="dateInput">Datum</label>
+      <input id="dateInput" type="date">
+    </div>
+    <div class="step-actions">
+      <button class="primary" onclick="goToActivity()">Weiter 💕</button>
+    </div>
+    <div id="dateError" class="message"></div>
+  </div>
+</div>
+
+<div id="activityPage" class="page hidden">
+  <div class="card">
+    <div class="icon">🌷</div>
+    <h2>Was wollen wir machen? ✨</h2>
+    <p>Wähle etwas aus oder schreib deine eigene Idee hinein.</p>
+
+    <div class="suggestions">
+      <button class="suggestion" onclick="chooseActivity(this,'Gemütlich essen gehen 🍝')">Gemütlich essen gehen 🍝</button>
+      <button class="suggestion" onclick="chooseActivity(this,'Abendspaziergang & etwas trinken 🌙')">Abendspaziergang & etwas trinken 🌙</button>
+      <button class="suggestion" onclick="chooseActivity(this,'Kinoabend 🎬')">Kinoabend 🎬</button>
+      <button class="suggestion" onclick="chooseActivity(this,'Picknick & Sonnenuntergang 🌅')">Picknick & Sonnenuntergang 🌅</button>
+      <button class="suggestion" onclick="chooseActivity(this,'Bowling oder Minigolf 🎳')">Bowling oder Minigolf 🎳</button>
+      <button class="suggestion" onclick="chooseActivity(this,'Überraschungs-Date 💌')">Überraschungs-Date 💌</button>
+    </div>
+
+    <div class="field">
+      <label for="customActivity">Oder eigene Idee</label>
+      <input id="customActivity" type="text" placeholder="z. B. zusammen kochen, Zoo, Café …">
+    </div>
+
+    <div class="step-actions">
+      <button class="primary" onclick="finishPlan()">Date festhalten 💖</button>
+    </div>
+    <div id="activityError" class="message"></div>
+  </div>
+</div>
+
+<div id="summaryPage" class="page hidden">
+  <div class="card">
+    <div class="icon">💖</div>
+    <h2>Unser Date steht ✨</h2>
+    <p>Jetzt gibt’s kein Zurück mehr 😌💕</p>
+
+    <div class="summary-card" id="summaryCard">
+      <div class="summary-title">💌 Date-Plan 💌</div>
+
+      <div class="summary-row">
+        <span class="summary-label">Datum</span>
+        <span id="summaryDate" class="summary-value"></span>
+      </div>
+
+      <div class="summary-row">
+        <span class="summary-label">Unser Plan</span>
+        <span id="summaryActivity" class="summary-value"></span>
+      </div>
+
+      <div style="font-size:30px;margin-top:14px">💗 ✨ 🌷 ✨ 💗</div>
+    </div>
+
+    <div class="screenshot-note">
+      Screenshot machen und verschicken 📸💕
+    </div>
+
+    <div class="step-actions">
+      <button class="secondary" onclick="restart()">Nochmal planen</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var count = 0;
+var selectedActivity = "";
+
+var messages = [
+  "Bist du dir wirklich sicher? 🥺",
+  "Überleg es dir doch bitte noch einmal… 💗",
+  "Nur ein kleines Date? 🥹",
+  "Der Ja-Knopf sieht langsam ziemlich überzeugend aus ✨",
+  "Was, wenn es richtig schön wird? 🌷",
+  "Ich glaube, dein Finger wollte eigentlich auf Ja 😇",
+  "Bitteee? 🥺💕",
+  "Du bekommst den Nein-Knopf sowieso nicht 😌",
+  "Na komm… einfach Ja drücken 😏💗"
+];
+
+function showPage(id){
+  ["askPage","datePage","activityPage","summaryPage"].forEach(function(x){
+    document.getElementById(x).classList.add("hidden");
+  });
+  document.getElementById(id).classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+
+function runAway(e){
+  if(e){
+    if(e.preventDefault) e.preventDefault();
+    if(e.stopPropagation) e.stopPropagation();
+  }
+  var noBtn = document.getElementById("noBtn");
+  var yesBtn = document.getElementById("yesBtn");
+  var msg = document.getElementById("message");
+
+  msg.innerHTML = messages[Math.min(count,messages.length-1)];
+  count++;
+
+  var scale = Math.min(1 + count*0.17, 2.4);
+  yesBtn.style.transform = "scale("+scale+")";
+  yesBtn.classList.add("glow");
+  sparkle(yesBtn);
+
+  var margin = 12;
+  var bw = noBtn.offsetWidth;
+  var bh = noBtn.offsetHeight;
+  var maxX = window.innerWidth - bw - margin;
+  var maxY = window.innerHeight - bh - margin;
+  noBtn.style.left = (margin + Math.random()*Math.max(1,maxX-margin)) + "px";
+  noBtn.style.top = (margin + Math.random()*Math.max(1,maxY-margin)) + "px";
+  if(count >= 6) noBtn.innerHTML = "Nö 😜";
+  return false;
+}
+
+function sayYes(){
+  document.getElementById("noBtn").style.display = "none";
+  for(var i=0;i<28;i++) setTimeout(randomSparkle,i*30);
+  setTimeout(function(){ showPage("datePage"); },350);
+}
+
+function goToActivity(){
+  var date = document.getElementById("dateInput").value;
+  var err = document.getElementById("dateError");
+  if(!date){
+    err.innerHTML = "Such bitte erst ein Datum aus 🥺💗";
+    return;
+  }
+  err.innerHTML = "";
+  showPage("activityPage");
+}
+
+function chooseActivity(btn,value){
+  selectedActivity = value;
+  document.querySelectorAll(".suggestion").forEach(function(el){
+    el.classList.remove("selected");
+  });
+  btn.classList.add("selected");
+  document.getElementById("customActivity").value = "";
+}
+
+document.getElementById("customActivity").addEventListener("input",function(){
+  if(this.value.trim() !== ""){
+    selectedActivity = "";
+    document.querySelectorAll(".suggestion").forEach(function(el){
+      el.classList.remove("selected");
+    });
+  }
+});
+
+function finishPlan(){
+  var custom = document.getElementById("customActivity").value.trim();
+  var activity = custom || selectedActivity;
+  var err = document.getElementById("activityError");
+
+  if(!activity){
+    err.innerHTML = "Wähle bitte eine Idee aus oder schreib deine eigene hinein 💕";
+    return;
+  }
+
+  var rawDate = document.getElementById("dateInput").value;
+  var dateObj = new Date(rawDate + "T12:00:00");
+  var formatted = dateObj.toLocaleDateString("de-DE",{
+    weekday:"long",
+    day:"2-digit",
+    month:"long",
+    year:"numeric"
+  });
+
+  document.getElementById("summaryDate").textContent = formatted;
+  document.getElementById("summaryActivity").textContent = activity;
+
+  err.innerHTML = "";
+  showPage("summaryPage");
+
+  for(var i=0;i<36;i++) setTimeout(randomSparkle,i*28);
+}
+
+function restart(){
+  count = 0;
+  selectedActivity = "";
+  document.getElementById("message").innerHTML = "";
+  document.getElementById("dateInput").value = "";
+  document.getElementById("customActivity").value = "";
+  document.querySelectorAll(".suggestion").forEach(function(el){el.classList.remove("selected");});
+
+  var yesBtn = document.getElementById("yesBtn");
+  yesBtn.style.transform = "scale(1)";
+  yesBtn.classList.remove("glow");
+
+  var noBtn = document.getElementById("noBtn");
+  noBtn.style.display = "block";
+  noBtn.innerHTML = "Nein 🙈";
+  firstPosition();
+  showPage("askPage");
+}
+
+function sparkle(el){
+  var rect = el.getBoundingClientRect();
+  var chars = ["✨","💗","💖","🌸"];
+  for(var i=0;i<8;i++){
+    var s=document.createElement("div");
+    s.className="sparkle";
+    s.innerHTML=chars[Math.floor(Math.random()*chars.length)];
+    s.style.left=(rect.left+Math.random()*rect.width)+"px";
+    s.style.top=(rect.top+Math.random()*rect.height)+"px";
+    document.body.appendChild(s);
+    setTimeout((function(node){return function(){node.remove();};})(s),850);
+  }
+}
+
+function randomSparkle(){
+  var s=document.createElement("div");
+  s.className="sparkle";
+  var chars=["✨","💗","💖","💕","🌸"];
+  s.innerHTML=chars[Math.floor(Math.random()*chars.length)];
+  s.style.left=(8+Math.random()*84)+"vw";
+  s.style.top=(12+Math.random()*76)+"vh";
+  document.body.appendChild(s);
+  setTimeout(function(){s.remove();},850);
+}
+
+function makeHearts(){
+  var chars=["💗","💕","💖","🌸"];
+  for(var i=0;i<16;i++){
+    var h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML=chars[Math.floor(Math.random()*chars.length)];
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(18+Math.random()*24)+"px";
+    h.style.animationDuration=(7+Math.random()*7)+"s";
+    h.style.animationDelay=(-Math.random()*10)+"s";
+    document.body.appendChild(h);
+  }
+}
+
+function firstPosition(){
+  var noBtn=document.getElementById("noBtn");
+  noBtn.style.left=Math.min(window.innerWidth-130,window.innerWidth*0.58)+"px";
+  noBtn.style.top=Math.min(window.innerHeight-80,window.innerHeight*0.58)+"px";
+}
+
+makeHearts();
+firstPosition();
+window.addEventListener("resize",firstPosition);
+</script>
+</body>
+</html>
